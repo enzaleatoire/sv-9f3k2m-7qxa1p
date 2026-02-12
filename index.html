@@ -436,29 +436,50 @@ Joyeuse Saint-Valentin 2026 (la 5ᵉ qu'on passe ensemble, c'est fou !) ❤
     }
 
     function burstHearts(){
-      const n = 14;
-      for(let i=0;i<n;i++){
-        const h = document.createElement("div");
-        h.className = "heart";
-        h.style.left = (10 + Math.random()*80) + "%";
-        h.style.top = (10 + Math.random()*30) + "%";
-        h.style.position = "absolute";
-        h.style.animation = "none";
-        h.innerHTML = `<img alt="" style="width:100%;height:100%" src="data:image/svg+xml,${heartSVG}">`;
-        h.style.opacity = (0.25 + Math.random()*0.45).toFixed(2);
-        h.style.width = h.style.height = (10 + Math.random()*16).toFixed(0) + "px";
-        h.style.transform = `translate(0,0) rotate(${Math.random()*180}deg)`;
-        h.style.transition = "transform 900ms ease, opacity 900ms ease";
-        card.appendChild(h);
+  // Plus de coeurs
+  const n = 34;
 
-        requestAnimationFrame(()=>{
-          h.style.transform = `translate(${(-60 + Math.random()*120)}px, ${(-80 + Math.random()*-140)}px) rotate(${180 + Math.random()*180}deg)`;
-          h.style.opacity = "0";
-        });
+  // On fait partir les coeurs du bas de la carte, sur une largeur plus grande
+  for(let i=0;i<n;i++){
+    const h = document.createElement("div");
+    h.className = "heart";
 
-        setTimeout(()=>h.remove(), 1000);
-      }
-    }
+    // position de départ : bas de la carte
+    h.style.position = "absolute";
+    h.style.left = (2 + Math.random()*96) + "%";
+    h.style.top = (72 + Math.random()*22) + "%"; // bas
+    h.style.animation = "none";
+
+    // plus gros
+    const size = 18 + Math.random()*26; // 18 à 44px
+    h.style.width = h.style.height = size.toFixed(0) + "px";
+
+    // un peu plus visible
+    h.style.opacity = (0.55 + Math.random()*0.35).toFixed(2);
+
+    h.innerHTML = `<img alt="" style="width:100%;height:100%" src="data:image/svg+xml,${heartSVG}">`;
+
+    // transition plus longue + plus "smooth"
+    h.style.transform = `translate(0,0) rotate(${Math.random()*180}deg)`;
+    h.style.transition =
+      "transform 1400ms cubic-bezier(.2,.9,.2,1), opacity 1400ms ease";
+
+    card.appendChild(h);
+
+    // mouvement : monter fort + étaler sur les côtés
+    const dx = (-220 + Math.random()*440);     // largeur
+    const dy = (-320 + Math.random()*-520);    // hauteur vers le haut (valeurs négatives)
+    const rot = (220 + Math.random()*260);
+
+    requestAnimationFrame(()=>{
+      h.style.transform = `translate(${dx}px, ${dy}px) rotate(${rot}deg)`;
+      h.style.opacity = "0";
+    });
+
+    setTimeout(()=>h.remove(), 1500);
+  }
+}
+
   </script>
 </body>
 </html>
